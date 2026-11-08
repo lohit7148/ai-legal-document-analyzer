@@ -1,0 +1,51 @@
+AI LEGAL DOCUMENT ANALYZER — STAGES 1-6
+QUICK RUN INSTRUCTIONS (Windows + PyCharm)
+============================================================
+Two terminals are needed at the same time. See README.md for details.
+
+TERMINAL 1 - BACKEND
+  cd AI_Legal_Document_Analyzer_Stage3
+  cd backend
+  python -m venv .venv
+  .\.venv\Scripts\activate
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt
+  uvicorn main:app --reload
+
+  Backend:  http://127.0.0.1:8000     Swagger: http://127.0.0.1:8000/docs
+  First run downloads Legal-BERT from Hugging Face (a few minutes). Wait for
+  "Legal-BERT loaded and ready". First OCR use also takes a few extra seconds.
+
+TERMINAL 2 - FRONTEND
+  cd AI_Legal_Document_Analyzer_Stage3
+  cd frontend
+  npm install
+  npm run dev
+
+  Frontend: http://localhost:5173
+
+DEMO
+  1. Analyze Document -> paste sample_documents/sample_service_agreement.txt
+     (or upload a PDF / photo of a page) -> Analyze Document
+  2. Look at Dashboard, Key Information, Clauses, Risk Analysis, Summary
+  3. Semantic Search -> "late payment penalty", "how can the contract be ended"
+  4. Ask Questions -> type a question
+  5. Risk Analysis -> overall score; Summary -> key sentences, Listen buttons (optional read-aloud)
+
+OPTIONAL LLM (Stage 4/5) - set in the backend terminal before uvicorn:
+  set LLM_PROVIDER=anthropic
+  set ANTHROPIC_API_KEY=your-key
+  (or Ollama: set LLM_PROVIDER=openai ; set OPENAI_MODEL=llama3.2)
+  Without it the app answers in retrieval-only mode. See README.
+
+TESTS (optional)
+  cd backend ; .\.venv\Scripts\activate ; pip install -r requirements-dev.txt
+  python -m pytest tests -q
+
+RASPBERRY PI AS DISPLAY (optional)
+  uvicorn main:app --host 0.0.0.0 --reload   and   npm run dev -- --host
+  then open http://<laptop-ip>:5173 in Chromium on the Pi.
+
+PYCHARM INTERPRETER
+  Settings -> Project -> Python Interpreter -> Add Interpreter ->
+  Existing Environment -> backend/.venv/Scripts/python.exe
